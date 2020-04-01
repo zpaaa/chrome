@@ -4,9 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    li {
+      width: 100px;
+      height: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      list-style: none;
+    }
+    .left li{
+      background: #ccc;
+    }
+    .right li{
+      background: greenyellow;
+    }
+    .container {
+      height: 100px;
+      color: #fff;
+      background: #353535;
+    }
+  </style>
 </head>
 <body>
   bookmark
+  <div style="display: flex;">
+    <ul class="left">
+      <li draggable="true">l1</li>
+      <li>l2</li>
+      <li>l3</li>
+      <li>l4</li>
+      <li>l5</li>
+      <li>l6</li>
+      <li>l7</li>
+    </ul>
+    <ul class="right">
+      <li>r1</li>
+      <li>r2</li>
+      <li>r3</li>
+      <li>r4</li>
+      <li>r5</li>
+      <li>r6</li>
+      <li>r7</li>
+    </ul>
+  </div>
+  <div class="container">container
+    <ul>
+
+    </ul>
+  </div>
+  
 </body>
 <script src="main.js"></script>
 </html>
