@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "简单的Chrome扩展demo",
+  "chrome_url_overrides": {
+    "bookmarks": "http://172.17.20.27:80/bookmark.html"
+  },
+  "permissions": [
+    "bookmarks"
+  ],
+  "omnibox": {
+    "keyword": "test"
+  }
+}
