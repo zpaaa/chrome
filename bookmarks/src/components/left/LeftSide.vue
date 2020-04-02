@@ -1,14 +1,12 @@
 <template>
-  <div>
+  <div class="left-side">
     <template v-for="item in data" >
-      <div
-        class="left-side"
-        v-if="item.children"
-        :key="item.id">
-        <ul>
-          <left-side-item :data="item" />
+        <ul
+          class="floder-list"
+          v-if="item.children"
+          :key="item.id">
+          <left-side-item :data="item" :tabIndex="0"/>
         </ul>
-      </div>
     </template>
   </div>
 </template>
@@ -28,12 +26,15 @@ export default {
     LeftSideItem,
   },
   created() {
-    // this.data = filterFloders(data)
-    this.data = data
-    console.log(this.data)
+    this.data = data[0].children
   }
 }
 </script>
 
 <style lang="scss">
+.left-side {
+  width: 150px;
+  padding-left: 39px;
+  border-right: 1px solid #ccc;
+}
 </style>

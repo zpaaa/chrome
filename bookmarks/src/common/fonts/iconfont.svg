@@ -1,0 +1,35 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="iconfont" horiz-adv-x="1024" >
+  <font-face
+    font-family="iconfont"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="xialasanjiao" unicode="&#59287;" d="M998.304 577.836v0.082h0.089l-0.089-0.082zM103.919 510.049v67.869h87.873l322.642-298.143 322.634 298.143h86.711v-68.958l-409.346-378.243-410.515 379.331z"  horiz-adv-x="1024" />
+
+    
+    <glyph glyph-name="xialasanjiao-copy" unicode="&#59343;" d="M25.696 190.164v-0.082h-0.089l0.089 0.082zM920.081 257.951v-67.87h-87.874l-322.642 298.143-322.634-298.143h-86.711v68.958l409.346 378.243 410.514-379.331z"  horiz-adv-x="1024" />
+
+    
+    <glyph glyph-name="folder" unicode="&#58895;" d="M0-14.222v796.444h341.333l113.778-113.778h455.111v-113.778h-682.667zM1024 440.889l-227.556-455.111h-796.444l284.444 455.111h739.556z"  horiz-adv-x="1024" />
+
+    
+
+
+  </font>
+</defs></svg>
