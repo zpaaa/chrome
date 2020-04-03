@@ -34,7 +34,7 @@ export default {
 <style lang="scss">
 .left-side {
   width: 150px;
-  padding-left: 39px;
+  padding-left: 19px;
   border-right: 1px solid #ccc;
 }
 </style>

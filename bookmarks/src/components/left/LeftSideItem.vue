@@ -3,7 +3,9 @@
     <div class="floder-title"
       draggable="true"
       ref="dragTarget"
+      @dragstart="dragstart"
       @dragover.prevent="dragover"
+      @dragleave="dragleave"
       @click.stop="toggleList"
       :style="{paddingLeft: (tabMoreIndex *20) + 'px'}"
     >
@@ -31,6 +33,7 @@
   </li>
 </template>
 <script>
+import { debounce, throttle } from '../../lib/utils'
 export default {
   name: "LeftSideItem",
   props: {
@@ -62,25 +65,30 @@ export default {
     checkChildrenHasFolderType() {
       return this.data.children.filter(v => v.children).length > 0
     },
+    dragstart(e) {
+      e.dataTransfer.setData("info", this.data)
+    },
     dragover(e) {
+      // console.log(e.currentTarget)
       // 可以通过这个来做边界判定
       const targetRef = this.$refs.dragTarget
       const top  = targetRef.getBoundingClientRect().top
       const height = targetRef.getBoundingClientRect().height
-      // console.log(`dragover---x: ${e.clientY - top} ${height}`)
+
       // 文件夹到非相邻文件夹 1：2：1
       const state = (e.clientY - top)/height * 4
       // console.log(state)
       if (state > 1 && state < 3 ) {
-        targetRef.classList.add('floder-title-hover')
+        targetRef.classList.add('floder-title-on')
       } else {
-        targetRef.classList.remove('floder-title-hover')
+        targetRef.classList.remove('floder-title-on')
       }
-
-
-
-
-      // console.log(e)
+    },
+    dragenter() {
+    },
+    dragleave() {
+      const targetRef = this.$refs.dragTarget
+      targetRef.classList.remove('floder-title-on')
     }
   }
 };
@@ -92,7 +100,7 @@ export default {
   .folder-item {
     user-select: none;
     .floder-title {
-      &.floder-title-hover {
+      &.floder-title-on {
         background: cornflowerblue;
       }
       p {

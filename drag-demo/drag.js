@@ -1,12 +1,12 @@
 console.log('hello world!')
 // console.log(chrome)
-chrome.bookmarks.getTree(function(bookmarkArray){
-  console.log(JSON.stringify(bookmarkArray));
-});
+// chrome.bookmarks.getTree(function(bookmarkArray){
+//   console.log(JSON.stringify(bookmarkArray));
+// });
 
-chrome.bookmarks.getSubTree('0', function(bookmarkArray){
-  console.log(bookmarkArray);
-});
+// chrome.bookmarks.getSubTree('0', function(bookmarkArray){
+//   console.log(bookmarkArray);
+// });
 
 //  setDragImage() img 必须在拖动事件之前
 var dragIcon = new Image(); 
@@ -17,7 +17,7 @@ const svg = document.querySelector('svg')
 document.querySelector('li').addEventListener('dragstart', function(e){
   console.log(`第${this.value + 1} 个 start`)
   e.dataTransfer.setData("text", {name: 112})
-  e.dataTransfer.setDragImage(svg, 10, 10)
+  e.dataTransfer.setDragImage(svg, 30, 30)
 })
 
 //  拖拽过程中持续触发 
@@ -30,9 +30,9 @@ document.querySelector('li').addEventListener('dragend', function(){
 })
 
 // 进入目标元素范围 必须被拖动元素完全在目标元素内才会触发
-// document.querySelector('.container').addEventListener('dragenter', function(){
-//   console.log(`第${this.value + 1} 个 dragenter`)
-// })
+document.querySelector('.container').addEventListener('dragenter', function(){
+  console.log(`第${this.value + 1} 个 dragenter`)
+})
 
 // 离开目标元素范围 被拖动元素不完全在目标元素内就会触发
 // document.querySelector('.container').addEventListener('dragleave', function(){
