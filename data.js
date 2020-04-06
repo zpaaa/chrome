@@ -1546,11 +1546,11 @@ const data = [
   }
 ]
 
-function filterFloders (data) {
+function filterFolders (data) {
   if(!data) return null 
   for (let i = 0; i < data.length ; i++) {
     if (data[i].children) {
-      filterFloders(data[i].children)
+      filterFolders(data[i].children)
     }
     else {
       data.splice(i, 1)
@@ -1559,5 +1559,5 @@ function filterFloders (data) {
   return data
 }
 
-const res = filterFloders(data)
+const res = filterFolders(data)
 console.log(res)

@@ -1,5 +1,6 @@
 @import './reset.scss';
 @import './iconfont.scss';
+@import './mixin.scss';
 
 ::-webkit-scrollbar {
 	width: 8px;
@@ -34,8 +35,3 @@ body {
 	background: #efefef;
 	//scroll-behavior: smooth;
 }
-
-//::selection {
-//  color: #fff;
-//  background: #e4b8bd;
-//}

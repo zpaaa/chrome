@@ -1,31 +1,38 @@
 <template>
   <li class="folder-item">
-    <div class="floder-title"
+    <div class="folder-title"
       draggable="true"
       ref="dragTarget"
+      @click="setCurrentFolder(data)"
       @dragstart="dragstart"
+      @dragend="dragend"
+      @dragenter="dragenter"
       @dragover.prevent="dragover"
       @dragleave="dragleave"
       @click.stop="toggleList"
       :style="{paddingLeft: (tabMoreIndex *20) + 'px'}"
     >
-      <p>
+      <p :class="{'is-current-folder': currentFolder.id === data.id}">
         <span
           :class="showChild ? 'icon icon-arrow-down' : 'icon icon-arrow-up'"
           v-if="checkChildrenHasFolderType()"
         >
         </span>
-        {{data.title}}</p>
+        {{data.title}}
+      </p>
     </div>
     <ul
-      class="floder-list"
+      class="folder-list"
       v-if="checkChildrenHasFolderType()"
     >
-      <template v-for="item in data.children">
+      <template v-for="(item, index) in data.children">
         <left-side-item
           :key="item.index"
           :data="item"
-          v-if="showChild && item.children"
+          :prev="data.children[index - 1] || {}"
+          :next="data.children[index + 1] || {}"
+          v-show="showChild"
+          v-if="item.children"
           :tabIndex="tabMoreIndex"
         />
       </template>
@@ -34,10 +41,23 @@
 </template>
 <script>
 import { debounce, throttle } from '../../lib/utils'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: "LeftSideItem",
   props: {
     data: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    prev: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    next: {
       type: Object,
       default: () => {
         return {}
@@ -57,7 +77,26 @@ export default {
       showChild: true
     };
   },
+  computed: {
+    ...mapState({
+      currentDrag: state => state.currentDrag,
+      currentFolder: state => state.currentFolder,
+    }),
+    isDragUrl() {
+      return !this.currentDrag.children
+    }
+  },
+  watch: {
+    currentDrag(curr) {
+      if (JSON.stringify(curr) === '{}') {
+        this.clearDragStyle()
+      }
+    }
+  },
   methods: {
+    ...mapMutations({
+      setCurrentFolder: 'setCurrentFolder',
+    }),
     // 展开收起菜单
     toggleList() {
       this.showChild = !this.showChild;
@@ -66,42 +105,88 @@ export default {
       return this.data.children.filter(v => v.children).length > 0
     },
     dragstart(e) {
-      e.dataTransfer.setData("info", this.data)
+      this.$_drag.dragEvent.DRAG_START(this.data, e)
     },
-    dragover(e) {
-      // console.log(e.currentTarget)
-      // 可以通过这个来做边界判定
-      const targetRef = this.$refs.dragTarget
-      const top  = targetRef.getBoundingClientRect().top
-      const height = targetRef.getBoundingClientRect().height
-
-      // 文件夹到非相邻文件夹 1：2：1
-      const state = (e.clientY - top)/height * 4
-      // console.log(state)
-      if (state > 1 && state < 3 ) {
-        targetRef.classList.add('floder-title-on')
-      } else {
-        targetRef.classList.remove('floder-title-on')
-      }
+    dragend(e) {
+      this.$_drag.dragEvent.DRAG_END()
     },
     dragenter() {
+      if(this.isDragUrl) {
+        // 如果是自己的子元素 就没有变化
+        if(this.data.children.filter(v => (v.id === this.currentDrag.id)).length > 0) return
+        const targetRef = this.$refs.dragTarget
+        targetRef.classList.add(`folder-title-on`)
+      }
     },
-    dragleave() {
+
+    dragover(e) {
+      // 文件 -> 文件夹
+      if (this.isDragUrl) return
       const targetRef = this.$refs.dragTarget
-      targetRef.classList.remove('floder-title-on')
+      this.$_drag.dragEvent.DRAG_OVER(
+        targetRef,
+        this.data,
+        e,
+        this.prev,
+        this.next)
+      .then(state => {
+        // console.log(state)
+        this.clearDragStyle()
+        targetRef.classList.add(`folder-title-${state}`)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    dragleave() {
+      this.clearDragStyle()
+    },
+
+    clearDragStyle() {
+      const targetRef = this.$refs.dragTarget
+      targetRef.classList.remove('folder-title-on')
+      targetRef.classList.remove('folder-title-above')
+      targetRef.classList.remove('folder-title-below')
     }
+
   }
 };
 </script>
 
 <style lang="scss">
-.floder-list {
+.folder-list {
   // padding-left: 20px;
   .folder-item {
     user-select: none;
-    .floder-title {
-      &.floder-title-on {
+    .folder-title {
+      position: relative;
+      &.folder-title-on {
         background: cornflowerblue;
+        p {
+          color: grey;
+        }
+      }
+      &.folder-title-above {
+        &::after {
+          content: '';
+          position: absolute;
+          top: -1px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: cornflowerblue;
+        }
+      }
+      &.folder-title-below {
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: -1px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: cornflowerblue;
+        }
       }
       p {
         position: relative;
@@ -109,6 +194,10 @@ export default {
         padding-left: 20px;
         line-height: 28px;
         font-size: 12px;
+        box-sizing: border-box;
+        &.is-current-folder {
+          color: cornflowerblue;
+        }
         .icon {
           position: absolute;
           left: 0px;

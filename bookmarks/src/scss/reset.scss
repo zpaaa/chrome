@@ -117,3 +117,9 @@ table {
 a {
 	text-decoration: none;
 }
+
+.line-cut {
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}

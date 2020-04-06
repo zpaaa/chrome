@@ -1,11 +1,16 @@
 <template>
   <div class="left-side">
-    <template v-for="item in data" >
+    <template v-for="(item, index) in data" >
         <ul
-          class="floder-list"
+          class="folder-list"
           v-if="item.children"
           :key="item.id">
-          <left-side-item :data="item" :tabIndex="0"/>
+          <left-side-item
+            :data="item"
+            :tabIndex="0"
+            :prev="data[index - 1] || {}"
+            :next="data[index + 1] || {}"
+          />
         </ul>
     </template>
   </div>
@@ -14,7 +19,6 @@
 <script>
 import LeftSideItem from './LeftSideItem'
 import { data } from '../../data'
-import { filterFloders } from '../../native'
 export default {
   name: 'LeftSide',
   data() {
@@ -27,14 +31,10 @@ export default {
   },
   created() {
     this.data = data[0].children
+    console.log(data)
   }
 }
 </script>
 
 <style lang="scss">
-.left-side {
-  width: 150px;
-  padding-left: 19px;
-  border-right: 1px solid #ccc;
-}
 </style>
