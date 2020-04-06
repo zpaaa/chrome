@@ -47,7 +47,7 @@ export default {
   },
   watch: {
     currentDrag(curr) {
-      if (JSON.stringify(curr) === '{}') {
+      if (!curr) {
         this.clearDragStyle()
       }
     }

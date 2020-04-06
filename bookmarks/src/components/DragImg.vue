@@ -17,7 +17,7 @@
     </g>
     <!-- 文字标题 -->
     <foreignObject x="-6" y="-2" width="90" height="20">
-      <div style="transform: scale(.5);text-align:left;color: #fff; font-size:12px;line-height: 20px" class="line-cut" >我是写在foreignObject标签中内容，哈哈哈哈哈哈哈哈哈</div>
+      <div style="transform: scale(.5);text-align:left;color: #fff; font-size:12px;line-height: 20px" class="line-cut">{{dragInfo.title}}</div>
     </foreignObject>
     <!-- tip -->
     <foreignObject x="50" y="-10" width="20" height="16">
@@ -27,13 +27,13 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'DragImg',
   computed: {
-    ...mapState({
-      currentDrag: state => state.currentDrag,
-    }),
+    ...mapGetters([
+      'dragInfo'
+    ]),
   },
 }
 </script>

@@ -7,7 +7,7 @@ const DRAG_START = (data, e) => {
   e.dataTransfer.setDragImage(svg, 300, 160)
 }
 const DRAG_END = () => {
-  store.commit('setCurrentDrag', {})
+  store.commit('setCurrentDrag', null)
 }
 const DRAG_OVER = ($ref, data, e, prev, next) => {
   const currentDrag = store.state.currentDrag
